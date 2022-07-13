@@ -50,7 +50,7 @@ void about();
 int check_end(int, int);
 void save_game();
 void analyze(int);
-// Для искуственного интеллекта
+// Г„Г«Гї ГЁГ±ГЄГіГ±ГІГўГҐГ­Г­Г®ГЈГ® ГЁГ­ГІГҐГ«Г«ГҐГЄГІГ 
 void AI(int, int, COORD*, COORD*, int*, COORD[8]);
 int minimax(int,int, int, COORD[MAX_COUNT_TURNS][2], int*, COORD[MAX_COUNT_TURNS][8]);
 int alpha_beta(int, int, int, int, int, COORD[MAX_COUNT_TURNS][2], int*, COORD[MAX_COUNT_TURNS][8]);
@@ -82,19 +82,19 @@ cell field_tmp[COUNT_FIELD][COUNT_FIELD];
 
 int main()
 {
-	// Инициализируется консоль, скрывается курсор
+	// Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§ГЁГ°ГіГҐГІГ±Гї ГЄГ®Г­Г±Г®Г«Гј, Г±ГЄГ°Г»ГўГ ГҐГІГ±Гї ГЄГіГ°Г±Г®Г°
 	con_init();
 	show_cursor(0);
-	// Запуск главного меню
+	// Г‡Г ГЇГіГ±ГЄ ГЈГ«Г ГўГ­Г®ГЈГ® Г¬ГҐГ­Гѕ
 	main_menu();
 
 	return 0;
 }
 
-// Поддержка главного меню
+// ГЏГ®Г¤Г¤ГҐГ°Г¦ГЄГ  ГЈГ«Г ГўГ­Г®ГЈГ® Г¬ГҐГ­Гѕ
 void main_menu()
 {
-	const char* menu_items[] = { "Играть", "Загрузить игру", "Рекорды", "О программе", "Выход" };
+	const char* menu_items[] = { "Г€ГЈГ°Г ГІГј", "Г‡Г ГЈГ°ГіГ§ГЁГІГј ГЁГЈГ°Гі", "ГђГҐГЄГ®Г°Г¤Г»", "ГЋ ГЇГ°Г®ГЈГ°Г Г¬Г¬ГҐ", "Г‚Г»ГµГ®Г¤" };
 	int menu_active_idx = 0;
 	int menu_items_count = sizeof(menu_items) / sizeof(menu_items[0]);
 
@@ -111,19 +111,19 @@ void main_menu()
 		int top = 9;
 		int b;
 
-		// Заблокировать отрисовку
+		// Г‡Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г®ГІГ°ГЁГ±Г®ГўГЄГі
 		con_draw_lock();
 
-		// Очистка экрана
+		// ГЋГ·ГЁГ±ГІГЄГ  ГЅГЄГ°Г Г­Г 
 		con_set_color(clr_font, clr_bg);
 		clrscr();
 		
-		// Цикл отрисовывает кнопки
+		// Г–ГЁГЄГ« Г®ГІГ°ГЁГ±Г®ГўГ»ГўГ ГҐГІ ГЄГ­Г®ГЇГЄГЁ
 		for (b = 0; b < menu_items_count; b++)
 		{
-			short btn_bg = clr_bg; // По умолчанию фон кнопки - как фон экрана
+			short btn_bg = clr_bg; // ГЏГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ ГґГ®Г­ ГЄГ­Г®ГЇГЄГЁ - ГЄГ ГЄ ГґГ®Г­ ГЅГЄГ°Г Г­Г 
 			if (b == menu_active_idx)
-				btn_bg = clr_bg_active; // Если кнопка активна - то рисуется другим цветом
+				btn_bg = clr_bg_active; // Г…Г±Г«ГЁ ГЄГ­Г®ГЇГЄГ  Г ГЄГІГЁГўГ­Г  - ГІГ® Г°ГЁГ±ГіГҐГІГ±Гї Г¤Г°ГіГЈГЁГ¬ Г¶ГўГҐГІГ®Г¬
 
 			gotoxy(left, top);
 			con_set_color(clr_font, btn_bg);
@@ -143,16 +143,16 @@ void main_menu()
 			printf("--------------------");
 			top += 2;
 		}
-		// Данные подготовлены, вывести на экран
+		// Г„Г Г­Г­Г»ГҐ ГЇГ®Г¤ГЈГ®ГІГ®ГўГ«ГҐГ­Г», ГўГ»ГўГҐГ±ГІГЁ Г­Г  ГЅГЄГ°Г Г­
 		con_draw_release();
 		
 
-		while (!key_is_pressed()) // Если пользователь нажимает кнопку
+		while (!key_is_pressed()) // Г…Г±Г«ГЁ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј Г­Г Г¦ГЁГ¬Г ГҐГІ ГЄГ­Г®ГЇГЄГі
 		{
 			int code = key_pressed_code();
-			if (code == KEY_UP) // Если это стрелка вверх
+			if (code == KEY_UP) // Г…Г±Г«ГЁ ГЅГІГ® Г±ГІГ°ГҐГ«ГЄГ  ГўГўГҐГ°Гµ
 			{
-				// То переход к верхнему пункту (если это возможно)
+				// Г’Г® ГЇГҐГ°ГҐГµГ®Г¤ ГЄ ГўГҐГ°ГµГ­ГҐГ¬Гі ГЇГіГ­ГЄГІГі (ГҐГ±Г«ГЁ ГЅГІГ® ГўГ®Г§Г¬Г®Г¦Г­Г®)
 				if (menu_active_idx > 0) 
 				{
 					last_act = 1;
@@ -160,9 +160,9 @@ void main_menu()
 					break;
 				}
 			}
-			else if (code == KEY_DOWN) // Если стрелка вниз
+			else if (code == KEY_DOWN) // Г…Г±Г«ГЁ Г±ГІГ°ГҐГ«ГЄГ  ГўГ­ГЁГ§
 			{
-				// То переход к нижнему пункту (если это возможно)
+				// Г’Г® ГЇГҐГ°ГҐГµГ®Г¤ ГЄ Г­ГЁГ¦Г­ГҐГ¬Гі ГЇГіГ­ГЄГІГі (ГҐГ±Г«ГЁ ГЅГІГ® ГўГ®Г§Г¬Г®Г¦Г­Г®)
 				if (menu_active_idx + 1 < menu_items_count)
 				{
 					last_act = -1;
@@ -171,15 +171,15 @@ void main_menu()
 				}
 			}
 			else if (code == KEY_ESC || code == 'q' || code == 'Q' || 
-				     code == (unsigned char)'й' || code == (unsigned char)'Й') // ESC или 'q' - выход
+				     code == (unsigned char)'Г©' || code == (unsigned char)'Г‰') // ESC ГЁГ«ГЁ 'q' - ГўГ»ГµГ®Г¤
 			{
 				last_act = 0;
 				return;
 			}
-			else if (code == KEY_ENTER) // Нажата кнопка Enter
+			else if (code == KEY_ENTER) // ГЌГ Г¦Г ГІГ  ГЄГ­Г®ГЇГЄГ  Enter
 			{
 				last_act = 0;
-				if (menu_active_idx == menu_items_count - 1) // Выбран последний пункт - это выход
+				if (menu_active_idx == menu_items_count - 1) // Г‚Г»ГЎГ°Г Г­ ГЇГ®Г±Г«ГҐГ¤Г­ГЁГ© ГЇГіГ­ГЄГІ - ГЅГІГ® ГўГ»ГµГ®Г¤
 					return;
 
 				if (menu_active_idx == 0)
@@ -202,11 +202,11 @@ void main_menu()
 			}
 		
 		
-			pause(40); // Небольная пауза (чтобы не загружать процессор)
+			pause(40); // ГЌГҐГЎГ®Г«ГјГ­Г Гї ГЇГ ГіГ§Г  (Г·ГІГ®ГЎГ» Г­ГҐ Г§Г ГЈГ°ГіГ¦Г ГІГј ГЇГ°Г®Г¶ГҐГ±Г±Г®Г°)
 		} // while (!key_is_pressed())
 
 
-		// "Съедается" оставшийся ввод
+		// "Г‘ГєГҐГ¤Г ГҐГІГ±Гї" Г®Г±ГІГ ГўГёГЁГ©Г±Гї ГўГўГ®Г¤
 		while (key_is_pressed())
 			key_pressed_code();
 
@@ -220,15 +220,15 @@ void about()
 	clrscr();
 
 	gotoxy(8, 2);
-	printf("О программе:");
+	printf("ГЋ ГЇГ°Г®ГЈГ°Г Г¬Г¬ГҐ:");
 
 	con_set_color(CON_CLR_GRAY, CON_CLR_BLACK);
 	gotoxy(8, 3);
-	printf("Данная программа является курсовой работой студентов 1 курса ИКиЗИ гр.4851003/00002\n");
+	printf("Г„Г Г­Г­Г Гї ГЇГ°Г®ГЈГ°Г Г¬Г¬Г  ГїГўГ«ГїГҐГІГ±Гї ГЄГіГ°Г±Г®ГўГ®Г© Г°Г ГЎГ®ГІГ®Г© Г±ГІГіГ¤ГҐГ­ГІГ®Гў 1 ГЄГіГ°Г±Г  Г€ГЉГЁГ‡Г€ ГЈГ°.4851003/00002\n");
 	gotoxy(8, 4);
-	printf("Вологдина Матвея и Шефатова Вадима\n\n");
+	printf("Г‚Г®Г«Г®ГЈГ¤ГЁГ­Г  ГЊГ ГІГўГҐГї ГЁ ГГҐГґГ ГІГ®ГўГ  Г‚Г Г¤ГЁГ¬Г \n\n");
 	gotoxy(8, 6);
-	printf("Для продолжения нажмите любую клавишу.");
+	printf("Г„Г«Гї ГЇГ°Г®Г¤Г®Г«Г¦ГҐГ­ГЁГї Г­Г Г¦Г¬ГЁГІГҐ Г«ГѕГЎГіГѕ ГЄГ«Г ГўГЁГёГі.");
 	
 	key_pressed_code();
 	return;
@@ -236,14 +236,14 @@ void about()
 
 void records()
 {
-	char difficult[3][10] = { "Легко", "Нормально", "Сложно" };
+	char difficult[3][10] = { "Г‹ГҐГЈГЄГ®", "ГЌГ®Г°Г¬Г Г«ГјГ­Г®", "Г‘Г«Г®Г¦Г­Г®" };
 	con_set_color(CON_CLR_WHITE, CON_CLR_BLUE);
 	clrscr();
 	FILE* records;
 	records = fopen(RECORDS_FILE, "r+");
 	if (records == NULL)
 	{
-		printf("Ошибка в открытии файла");
+		printf("ГЋГёГЁГЎГЄГ  Гў Г®ГІГЄГ°Г»ГІГЁГЁ ГґГ Г©Г«Г ");
 		return;
 	}
 	char name[3][20][RECORD_INFO_SIZE];
@@ -254,9 +254,9 @@ void records()
 		for (int j = 0; j < 20; j++)
 			fscanf(records, "%d%s", &count[i][j], name[i][j]);
 	gotoxy(51, 3);
-	printf("Таблица рекордов");
+	printf("Г’Г ГЎГ«ГЁГ¶Г  Г°ГҐГЄГ®Г°Г¤Г®Гў");
 	gotoxy(48, 30);
-	printf("Нажмите q или ESC, чтобы выйти");
+	printf("ГЌГ Г¦Г¬ГЁГІГҐ q ГЁГ«ГЁ ESC, Г·ГІГ®ГЎГ» ГўГ»Г©ГІГЁ");
 	while (1)
 	{
 		int top = 4, left = 15;
@@ -274,7 +274,7 @@ void records()
 		for (int j = 0; j < 3; j++)
 		{
 			gotoxy(left, top);
-			printf("|Кол-во|                     ");
+			printf("|ГЉГ®Г«-ГўГ®|                     ");
 			left += 29;
 		}
 		printf("|");
@@ -283,7 +283,7 @@ void records()
 		for (int j = 0; j < 3; j++)
 		{
 			gotoxy(left, top);
-			printf("|побед |         Имя         ");
+			printf("|ГЇГ®ГЎГҐГ¤ |         Г€Г¬Гї         ");
 			left += 29;
 		}
 		printf("|");
@@ -321,7 +321,7 @@ void records()
 			int code = key_pressed_code();
 			if (code > 127)
 				code -= 256;
-			if (code == 'q' || code == 'Q' || code == 'й' || code == 'Й' || code == KEY_ESC)
+			if (code == 'q' || code == 'Q' || code == 'Г©' || code == 'Г‰' || code == KEY_ESC)
 				return;
 		}
 	}
@@ -385,7 +385,6 @@ void play_checkers(FILE* load)
 				fprintf(result, "+%lf", time_spent);
 				fclose(result);
 			}
-			exit(0);
 			break;
 		}
 		if (turn == white || turn == red)
@@ -419,9 +418,9 @@ void play_checkers(FILE* load)
 			else
 			{
 				int c = key_pressed_code();
-				if (c == 'q' || c == 'Q' || c == KEY_ESC || c == 'й' || c == 'Й')
+				if (c == 'q' || c == 'Q' || c == KEY_ESC || c == 'Г©' || c == 'Г‰')
 					return;
-				if (c == 's' || c == 'ы' || c == 'S' || c == 'Ы')
+				if (c == 's' || c == 'Г»' || c == 'S' || c == 'Г›')
 				{
 					save_game();
 					con_set_color(CON_CLR_WHITE, CON_CLR_BLUE);
@@ -451,17 +450,17 @@ void play_checkers(FILE* load)
 				if (c == KEY_SPACE)
 				{
 					if (field[cur.X][cur.Y].isBusy == turn && move_old.X == 0 && move_old.Y == 0)
-					{// Стартовая клетка хода
+					{// Г‘ГІГ Г°ГІГ®ГўГ Гї ГЄГ«ГҐГІГЄГ  ГµГ®Г¤Г 
 						move_old.X = cur_n.X;
 						move_old.Y = cur_n.Y;
 					}
 					else if (field[cur_n.X][cur_n.Y].isBusy == no && !(move_old.X == 0 && move_old.Y == 0))
-					{// Конечная клетка хода
+					{// ГЉГ®Г­ГҐГ·Г­Г Гї ГЄГ«ГҐГІГЄГ  ГµГ®Г¤Г 
 						move_new.X = cur_n.X;
 						move_new.Y = cur_n.Y;
 					}
 					else if (field[cur_n.X][cur_n.Y].isBusy == turn && !(move_old.X == 0 && move_old.Y == 0))
-					{// Если конечная клетка с шашкой нашего цвета, она воспринимается как стартовая
+					{// Г…Г±Г«ГЁ ГЄГ®Г­ГҐГ·Г­Г Гї ГЄГ«ГҐГІГЄГ  Г± ГёГ ГёГЄГ®Г© Г­Г ГёГҐГЈГ® Г¶ГўГҐГІГ , Г®Г­Г  ГўГ®Г±ГЇГ°ГЁГ­ГЁГ¬Г ГҐГІГ±Гї ГЄГ ГЄ Г±ГІГ Г°ГІГ®ГўГ Гї
 						move_old.X = cur_n.X;
 						move_old.Y = cur_n.Y;
 					}
@@ -472,36 +471,36 @@ void play_checkers(FILE* load)
 					}
 				}
 			}
-				if (flag == 1 && for_cont.X == move_old.X && for_cont.Y == move_old.Y || flag == 0)// Если рубка продолжается то только той же шашкой
+				if (flag == 1 && for_cont.X == move_old.X && for_cont.Y == move_old.Y || flag == 0)// Г…Г±Г«ГЁ Г°ГіГЎГЄГ  ГЇГ°Г®Г¤Г®Г«Г¦Г ГҐГІГ±Гї ГІГ® ГІГ®Г«ГјГЄГ® ГІГ®Г© Г¦ГҐ ГёГ ГёГЄГ®Г©
 				{
-					if (!(move_old.X == 0 && move_old.Y == 0) && !(move_new.X == 0 && move_new.Y == 0))//записаны 2 позиции
+					if (!(move_old.X == 0 && move_old.Y == 0) && !(move_new.X == 0 && move_new.Y == 0))//Г§Г ГЇГЁГ±Г Г­Г» 2 ГЇГ®Г§ГЁГ¶ГЁГЁ
 					{
-						if (!have_to_cut(turn, 1) && field[move_old.X][move_old.Y].isQueen == false)//если не должен рубить, значит ход для шашки
+						if (!have_to_cut(turn, 1) && field[move_old.X][move_old.Y].isQueen == false)//ГҐГ±Г«ГЁ Г­ГҐ Г¤Г®Г«Г¦ГҐГ­ Г°ГіГЎГЁГІГј, Г§Г­Г Г·ГЁГІ ГµГ®Г¤ Г¤Г«Гї ГёГ ГёГЄГЁ
 						{
 							for (int k = 0; k < 2; k++)
-								if (field[move_old.X][move_old.Y].step[k].X == move_new.X && field[move_old.X][move_old.Y].step[k].Y == move_new.Y)//ход направо
+								if (field[move_old.X][move_old.Y].step[k].X == move_new.X && field[move_old.X][move_old.Y].step[k].Y == move_new.Y)//ГµГ®Г¤ Г­Г ГЇГ°Г ГўГ®
 								{
 									move(move_old, move_new, field[move_old.X][move_old.Y].isBusy);
-									analyze(MAIN);// Обновить доступные ходы
+									analyze(MAIN);// ГЋГЎГ­Г®ГўГЁГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»
 									turn = 3 - turn;
 									if (turn == white)
 										return_mark(save_marked, turn);
 								}
 						}
-						else if (!have_to_cut(turn, 1))//иначе ход для дамки
+						else if (!have_to_cut(turn, 1))//ГЁГ­Г Г·ГҐ ГµГ®Г¤ Г¤Г«Гї Г¤Г Г¬ГЄГЁ
 						{
 							for (int n = 0; n < 4; n++)
 								for (int k = 0; k < 7; k++)
 									if (field[move_old.X][move_old.Y].step_q[n][k].X == move_new.X && field[move_old.X][move_old.Y].step_q[n][k].Y == move_new.Y)
 									{
 										move(move_old, move_new, field[move_old.X][move_old.Y].isBusy);
-										analyze(MAIN);// Обновить доступные ходы
+										analyze(MAIN);// ГЋГЎГ­Г®ГўГЁГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»
 										turn = 3 - turn;
 										if (turn == white)
 											return_mark(save_marked, turn);
 									}
 						}
-						else if (field[move_old.X][move_old.Y].isQueen == false)//иначе рубка для шашки
+						else if (field[move_old.X][move_old.Y].isQueen == false)//ГЁГ­Г Г·ГҐ Г°ГіГЎГЄГ  Г¤Г«Гї ГёГ ГёГЄГЁ
 						{
 							for (int k = 0; k < 4; k++)
 								if (field[move_old.X][move_old.Y].cut[k].X == move_new.X && field[move_old.X][move_old.Y].cut[k].Y == move_new.Y)
@@ -521,9 +520,9 @@ void play_checkers(FILE* load)
 									eating(move_old);
 									flag = 1;
 								}
-							analyze(MAIN);// Обновить доступные ходы
-							d = have_to_cut_cur(move_new, 1);// Проверка на доступность срубить еще одну
-							if (d == 0 && flag == 1)//если срубил и больше не может
+							analyze(MAIN);// ГЋГЎГ­Г®ГўГЁГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»
+							d = have_to_cut_cur(move_new, 1);// ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г¤Г®Г±ГІГіГЇГ­Г®Г±ГІГј Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі
+							if (d == 0 && flag == 1)//ГҐГ±Г«ГЁ Г±Г°ГіГЎГЁГ« ГЁ ГЎГ®Г«ГјГёГҐ Г­ГҐ Г¬Г®Г¦ГҐГІ
 							{
 								flag = 0;
 								turn = 3 - turn;
@@ -532,16 +531,16 @@ void play_checkers(FILE* load)
 								if (turn == white)
 									return_mark(save_marked, turn);
 							}
-							else if (d == 1)//если может срубить еще одну, сохраняем координаты шашки, чтобы ходить именно ей
+							else if (d == 1)//ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі, Г±Г®ГµГ°Г Г­ГїГҐГ¬ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГёГ ГёГЄГЁ, Г·ГІГ®ГЎГ» ГµГ®Г¤ГЁГІГј ГЁГ¬ГҐГ­Г­Г® ГҐГ©
 								for_cont = move_new;
-							if (d == 1 && move_new.X == end_of_AI_turn.X && move_new.Y == end_of_AI_turn.Y)//если может рубить, но AI решил закончить ход раньше
+							if (d == 1 && move_new.X == end_of_AI_turn.X && move_new.Y == end_of_AI_turn.Y)//ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г°ГіГЎГЁГІГј, Г­Г® AI Г°ГҐГёГЁГ« Г§Г ГЄГ®Г­Г·ГЁГІГј ГµГ®Г¤ Г°Г Г­ГјГёГҐ
 							{
 								turn = 3 - turn;
 								if (turn == white)
 									return_mark(save_marked, turn);
 							}
 						}
-						else//иначе рубка для дамки
+						else//ГЁГ­Г Г·ГҐ Г°ГіГЎГЄГ  Г¤Г«Гї Г¤Г Г¬ГЄГЁ
 						{
 							for (int n = 0; n < 4; n++)
 								for (int k = 0; k < 6; k++)
@@ -564,11 +563,11 @@ void play_checkers(FILE* load)
 										}
 										flag = 1;
 										eating(move_old);
-										analyze(MAIN);// Обновить доступные ходы
+										analyze(MAIN);// ГЋГЎГ­Г®ГўГЁГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»
 										break;
 									}
-							d = have_to_cut_cur(move_new, 1);//Проверка на доступность срубить еще одну
-							if (d == 0 && flag == 1)//если срубил и больше не может
+							d = have_to_cut_cur(move_new, 1);//ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г¤Г®Г±ГІГіГЇГ­Г®Г±ГІГј Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі
+							if (d == 0 && flag == 1)//ГҐГ±Г«ГЁ Г±Г°ГіГЎГЁГ« ГЁ ГЎГ®Г«ГјГёГҐ Г­ГҐ Г¬Г®Г¦ГҐГІ
 							{
 								flag = 0;
 								for_cont.X = 0;
@@ -577,9 +576,9 @@ void play_checkers(FILE* load)
 								if (turn == white)
 									return_mark(save_marked, turn);
 							}
-							else if (d == 1)//если может срубить еще одну, сохраняем координаты шашки, чтобы ходить именно ей
+							else if (d == 1)//ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі, Г±Г®ГµГ°Г Г­ГїГҐГ¬ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГёГ ГёГЄГЁ, Г·ГІГ®ГЎГ» ГµГ®Г¤ГЁГІГј ГЁГ¬ГҐГ­Г­Г® ГҐГ©
 								for_cont = move_new;
-							if (d == 1 && move_new.X == end_of_AI_turn.X && move_new.Y == end_of_AI_turn.Y)//если может рубить, но AI решил закончить ход раньше
+							if (d == 1 && move_new.X == end_of_AI_turn.X && move_new.Y == end_of_AI_turn.Y)//ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г°ГіГЎГЁГІГј, Г­Г® AI Г°ГҐГёГЁГ« Г§Г ГЄГ®Г­Г·ГЁГІГј ГµГ®Г¤ Г°Г Г­ГјГёГҐ
 							{
 								turn = 3 - turn;
 								if (turn == white)
@@ -603,7 +602,7 @@ void play_checkers(FILE* load)
 					}
 				}
 		}
-		if (cur_n.X != cur.X || cur_n.Y != cur.Y)//смена фокуса
+		if (cur_n.X != cur.X || cur_n.Y != cur.Y)//Г±Г¬ГҐГ­Г  ГґГ®ГЄГіГ±Г 
 		{
 			draw_field(cur, cur_n);
 			draw_checkers(cur, cur_n);
@@ -615,7 +614,7 @@ void play_checkers(FILE* load)
 			if (field[cur.X][cur.Y].isBusy == turn && field[cur.X][cur.Y].isQueen == false)
 			{
 				int i = -1;
-				printf("Доступные рубки:");
+				printf("Г„Г®Г±ГІГіГЇГ­Г»ГҐ Г°ГіГЎГЄГЁ:");
 				while (++i < 4)
 				{
 					if (!(field[cur.X][cur.Y].cut[i].X == 0 && field[cur.X][cur.Y].cut[i].Y == 0))
@@ -629,7 +628,7 @@ void play_checkers(FILE* load)
 				gotoxy(2, ++coord);
 				if (printed == 0)
 				{
-					printf("Доступные ходы:");
+					printf("Г„Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»:");
 					while (++i < 4)
 					{
 						if (!(field[cur.X][cur.Y].step[i].X == 0 && field[cur.X][cur.Y].step[i].Y == 0))
@@ -642,7 +641,7 @@ void play_checkers(FILE* load)
 			}
 			else if(field[cur.X][cur.Y].isBusy == turn && field[cur.X][cur.Y].isQueen == true)
 			{
-				printf("Доступные рубки:");
+				printf("Г„Г®Г±ГІГіГЇГ­Г»ГҐ Г°ГіГЎГЄГЁ:");
 				int i = -1, j = -1, printed = 0;
 				while (++i < 4)
 				{
@@ -662,7 +661,7 @@ void play_checkers(FILE* load)
 				gotoxy(2, ++coord);
 				if (printed == 0)
 				{
-					printf("Доступные ходы:");
+					printf("Г„Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»:");
 					while (++i < 4)
 					{
 						while (++j < 7)
@@ -700,18 +699,18 @@ void load_game()
 	clrscr();
 	char name[SIZE_NAME];
 	gotoxy(50, 14);
-	printf("Введите имя сохраненной игры:");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї Г±Г®ГµГ°Г Г­ГҐГ­Г­Г®Г© ГЁГЈГ°Г»:");
 	gotoxy(60, 16);
 	if (!scanf("%s", name))
 		return;
 	strcat(name, ".txt");
 	game = fopen(name, "r+");
-	if (game != NULL && strcmp(name, RECORDS_FILE) != 0 && strcmp(name, LOG_FILE) != 0)// Сейв существует и название не совпадает с важными файлами
+	if (game != NULL && strcmp(name, RECORDS_FILE) != 0 && strcmp(name, LOG_FILE) != 0)// Г‘ГҐГ©Гў Г±ГіГ№ГҐГ±ГІГўГіГҐГІ ГЁ Г­Г Г§ГўГ Г­ГЁГҐ Г­ГҐ Г±Г®ГўГЇГ Г¤Г ГҐГІ Г± ГўГ Г¦Г­Г»Г¬ГЁ ГґГ Г©Г«Г Г¬ГЁ
 		play_checkers(game);
 	else
 	{
 		gotoxy(45, 18);
-		printf("Игры с таким именем ещё не было сохранено");
+		printf("Г€ГЈГ°Г» Г± ГІГ ГЄГЁГ¬ ГЁГ¬ГҐГ­ГҐГ¬ ГҐГ№Вё Г­ГҐ ГЎГ»Г«Г® Г±Г®ГµГ°Г Г­ГҐГ­Г®");
 		pause(500);
 	}
 }
@@ -741,7 +740,7 @@ void init_field()
 void draw_field(COORD cur, COORD cur_n)
 {
 	int i = 0, j = 0, k = 0;
-	if (cur_n.X == -1 && cur_n.Y == -1)//начальная отрисовка всех клеток
+	if (cur_n.X == -1 && cur_n.Y == -1)//Г­Г Г·Г Г«ГјГ­Г Гї Г®ГІГ°ГЁГ±Г®ГўГЄГ  ГўГ±ГҐГµ ГЄГ«ГҐГІГ®ГЄ
 	{
 		for (i = 0; i < COUNT_FIELD; i++)
 		{
@@ -757,7 +756,7 @@ void draw_field(COORD cur, COORD cur_n)
 			}
 		}
 	}
-	else if (cur.X >= 0 && cur.Y >= 0 && cur_n.X >= 0 && cur_n.Y >= 0)//отрисовка 2 изменяющихся
+	else if (cur.X >= 0 && cur.Y >= 0 && cur_n.X >= 0 && cur_n.Y >= 0)//Г®ГІГ°ГЁГ±Г®ГўГЄГ  2 ГЁГ§Г¬ГҐГ­ГїГѕГ№ГЁГµГ±Гї
 	{
 		con_set_color(CON_CLR_GRAY, CON_CLR_GRAY);
 		print_cell(field[cur_n.X][cur_n.Y].crd);
@@ -771,7 +770,7 @@ void draw_field(COORD cur, COORD cur_n)
 
 void draw_checkers(COORD cur, COORD cur_n)
 {
-	if (cur_n.X == -1 && cur_n.Y == -1)//начальная отрисовка всех шашек
+	if (cur_n.X == -1 && cur_n.Y == -1)//Г­Г Г·Г Г«ГјГ­Г Гї Г®ГІГ°ГЁГ±Г®ГўГЄГ  ГўГ±ГҐГµ ГёГ ГёГҐГЄ
 	{
 		for (int i = 0; i < COUNT_FIELD; i++)
 		{
@@ -794,9 +793,9 @@ void draw_checkers(COORD cur, COORD cur_n)
 			}
 		}
 	}
-	else//отрисовка 2 изменяющихся
+	else//Г®ГІГ°ГЁГ±Г®ГўГЄГ  2 ГЁГ§Г¬ГҐГ­ГїГѕГ№ГЁГµГ±Гї
 	{
-		if ((cur.X % 2 == 0) && (cur.Y % 2 == 0) || (cur.X % 2 != 0) && (cur.Y % 2 != 0))//текущая клетка черная
+		if ((cur.X % 2 == 0) && (cur.Y % 2 == 0) || (cur.X % 2 != 0) && (cur.Y % 2 != 0))//ГІГҐГЄГіГ№Г Гї ГЄГ«ГҐГІГЄГ  Г·ГҐГ°Г­Г Гї
 		{
 			if (field[cur_n.X][cur_n.Y].isBusy == red)
 			{
@@ -816,7 +815,7 @@ void draw_checkers(COORD cur, COORD cur_n)
 			}
 			
 		}
-		else//текущая клетка белая
+		else//ГІГҐГЄГіГ№Г Гї ГЄГ«ГҐГІГЄГ  ГЎГҐГ«Г Гї
 		{
 			if (field[cur.X][cur.Y].isBusy == red)
 			{
@@ -998,7 +997,7 @@ void analyze(int key)
 			turn = field_analyze[i][j].isBusy;
 			if (!field_analyze[i][j].isQueen)
 			{
-				if (crd.X > 0 && crd.Y > 0 && field_analyze[crd.Y - 1][crd.X - 1].isBusy == no && turn == white)//влево вверх ход
+				if (crd.X > 0 && crd.Y > 0 && field_analyze[crd.Y - 1][crd.X - 1].isBusy == no && turn == white)//ГўГ«ГҐГўГ® ГўГўГҐГ°Гµ ГµГ®Г¤
 				{
 					field_analyze[crd.Y][crd.X].step[0].X = crd.Y - 1;
 					field_analyze[crd.Y][crd.X].step[0].Y = crd.X - 1;
@@ -1008,7 +1007,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].step[0].X = 0;
 					field_analyze[crd.Y][crd.X].step[0].Y = 0;
 				}
-				if (crd.X < 7 && crd.Y > 0 && field_analyze[crd.Y - 1][crd.X + 1].isBusy == no && turn == white)//вправо вверх ход
+				if (crd.X < 7 && crd.Y > 0 && field_analyze[crd.Y - 1][crd.X + 1].isBusy == no && turn == white)//ГўГЇГ°Г ГўГ® ГўГўГҐГ°Гµ ГµГ®Г¤
 				{
 					field_analyze[crd.Y][crd.X].step[1].X = crd.Y - 1;
 					field_analyze[crd.Y][crd.X].step[1].Y = crd.X + 1;
@@ -1018,7 +1017,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].step[1].X = 0;
 					field_analyze[crd.Y][crd.X].step[1].Y = 0;
 				}
-				if (crd.X > 0 && crd.Y < 7 && field_analyze[crd.Y + 1][crd.X - 1].isBusy == no && turn == red)//влево вниз ход
+				if (crd.X > 0 && crd.Y < 7 && field_analyze[crd.Y + 1][crd.X - 1].isBusy == no && turn == red)//ГўГ«ГҐГўГ® ГўГ­ГЁГ§ ГµГ®Г¤
 				{
 					field_analyze[crd.Y][crd.X].step[0].X = crd.Y + 1;
 					field_analyze[crd.Y][crd.X].step[0].Y = crd.X - 1;
@@ -1028,7 +1027,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].step[0].X = 0;
 					field_analyze[crd.Y][crd.X].step[0].Y = 0;
 				}
-				if (crd.X < 7 && crd.Y < 7 && field_analyze[crd.Y + 1][crd.X + 1].isBusy == no && turn == red)//вправо вниз ход
+				if (crd.X < 7 && crd.Y < 7 && field_analyze[crd.Y + 1][crd.X + 1].isBusy == no && turn == red)//ГўГЇГ°Г ГўГ® ГўГ­ГЁГ§ ГµГ®Г¤
 				{
 					field_analyze[crd.Y][crd.X].step[1].X = crd.Y + 1;
 					field_analyze[crd.Y][crd.X].step[1].Y = crd.X + 1;
@@ -1038,7 +1037,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].step[1].X = 0;
 					field_analyze[crd.Y][crd.X].step[1].Y = 0;
 				}
-				if (crd.X > 1 && crd.Y > 1 && field_analyze[crd.Y - 1][crd.X - 1].isBusy == 3 - turn && field_analyze[crd.Y - 2][crd.X - 2].isBusy == no)//рубка влево вверх
+				if (crd.X > 1 && crd.Y > 1 && field_analyze[crd.Y - 1][crd.X - 1].isBusy == 3 - turn && field_analyze[crd.Y - 2][crd.X - 2].isBusy == no)//Г°ГіГЎГЄГ  ГўГ«ГҐГўГ® ГўГўГҐГ°Гµ
 				{
 					field_analyze[crd.Y][crd.X].cut[0].X = crd.Y - 2;
 					field_analyze[crd.Y][crd.X].cut[0].Y = crd.X - 2;
@@ -1048,7 +1047,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].cut[0].X = 0;
 					field_analyze[crd.Y][crd.X].cut[0].Y = 0;
 				}
-				if (crd.X < 6 && crd.Y > 1 && field_analyze[crd.Y - 1][crd.X + 1].isBusy == 3 - turn && field_analyze[crd.Y - 2][crd.X + 2].isBusy == no)//рубка вправо вверх
+				if (crd.X < 6 && crd.Y > 1 && field_analyze[crd.Y - 1][crd.X + 1].isBusy == 3 - turn && field_analyze[crd.Y - 2][crd.X + 2].isBusy == no)//Г°ГіГЎГЄГ  ГўГЇГ°Г ГўГ® ГўГўГҐГ°Гµ
 				{
 					field_analyze[crd.Y][crd.X].cut[1].X = crd.Y - 2;
 					field_analyze[crd.Y][crd.X].cut[1].Y = crd.X + 2;
@@ -1058,7 +1057,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].cut[1].X = 0;
 					field_analyze[crd.Y][crd.X].cut[1].Y = 0;
 				}
-				if (crd.X > 1 && crd.Y < 6 && field_analyze[crd.Y + 1][crd.X - 1].isBusy == 3 - turn && field_analyze[crd.Y + 2][crd.X - 2].isBusy == no)//рубка влево вниз
+				if (crd.X > 1 && crd.Y < 6 && field_analyze[crd.Y + 1][crd.X - 1].isBusy == 3 - turn && field_analyze[crd.Y + 2][crd.X - 2].isBusy == no)//Г°ГіГЎГЄГ  ГўГ«ГҐГўГ® ГўГ­ГЁГ§
 				{
 					field_analyze[crd.Y][crd.X].cut[2].X = crd.Y + 2;
 					field_analyze[crd.Y][crd.X].cut[2].Y = crd.X - 2;
@@ -1068,7 +1067,7 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].cut[2].X = 0;
 					field_analyze[crd.Y][crd.X].cut[2].Y = 0;
 				}
-				if (crd.X < 6 && crd.Y < 6 && field_analyze[crd.Y + 1][crd.X + 1].isBusy == 3 - turn && field_analyze[crd.Y + 2][crd.X + 2].isBusy == no)//рубка вправо вниз
+				if (crd.X < 6 && crd.Y < 6 && field_analyze[crd.Y + 1][crd.X + 1].isBusy == 3 - turn && field_analyze[crd.Y + 2][crd.X + 2].isBusy == no)//Г°ГіГЎГЄГ  ГўГЇГ°Г ГўГ® ГўГ­ГЁГ§
 				{
 					field_analyze[crd.Y][crd.X].cut[3].X = crd.Y + 2;
 					field_analyze[crd.Y][crd.X].cut[3].Y = crd.X + 2;
@@ -1079,12 +1078,12 @@ void analyze(int key)
 					field_analyze[crd.Y][crd.X].cut[3].Y = 0;
 				}
 			}
-			else//дамка
+			else//Г¤Г Г¬ГЄГ 
 			{
 				crd.X = j;
 				crd.Y = i;
 				z = 0;
-				if (crd.X > 0 && crd.Y > 0)//ход влево вверх
+				if (crd.X > 0 && crd.Y > 0)//ГµГ®Г¤ ГўГ«ГҐГўГ® ГўГўГҐГ°Гµ
 				{
 					while (--crd.X >= 0 && --crd.Y >= 0)
 					{
@@ -1103,7 +1102,7 @@ void analyze(int key)
 				crd.X = j;
 				crd.Y = i;
 				z = 0;
-				if (crd.X < 7 && crd.Y > 0)//ход вправо вверх
+				if (crd.X < 7 && crd.Y > 0)//ГµГ®Г¤ ГўГЇГ°Г ГўГ® ГўГўГҐГ°Гµ
 				{
 					while (++crd.X <= 7 && --crd.Y >= 0)
 					{
@@ -1122,7 +1121,7 @@ void analyze(int key)
 				crd.X = j;
 				crd.Y = i;
 				z = 0;
-				if (crd.X > 0 && crd.Y < 7)//ход влево вниз
+				if (crd.X > 0 && crd.Y < 7)//ГµГ®Г¤ ГўГ«ГҐГўГ® ГўГ­ГЁГ§
 				{
 					while (--crd.X >= 0 && ++crd.Y <= 7)
 					{
@@ -1141,7 +1140,7 @@ void analyze(int key)
 				crd.X = j;
 				crd.Y = i;
 				z = 0;
-				if (crd.X < 7 && crd.Y < 7)//ход вправо вниз
+				if (crd.X < 7 && crd.Y < 7)//ГµГ®Г¤ ГўГЇГ°Г ГўГ® ГўГ­ГЁГ§
 				{
 					while (++crd.X <= 7 && ++crd.Y <= 7)
 					{
@@ -1160,7 +1159,7 @@ void analyze(int key)
 				crd.X = j;
 				crd.Y = i;
 				z = 0;
-				if (crd.X > 1 && crd.Y > 1)//рубка влево вверх
+				if (crd.X > 1 && crd.Y > 1)//Г°ГіГЎГЄГ  ГўГ«ГҐГўГ® ГўГўГҐГ°Гµ
 				{
 					while (--crd.Y > 0 && --crd.X > 0 && field_analyze[crd.Y][crd.X].isBusy != 3 - turn);
 					if (crd.Y > 0 && crd.X > 0)
@@ -1183,7 +1182,7 @@ void analyze(int key)
 				z = 0;
 				crd.X = j;
 				crd.Y = i;
-				if (crd.X < 6 && crd.Y > 1)//рубка вправо вверх
+				if (crd.X < 6 && crd.Y > 1)//Г°ГіГЎГЄГ  ГўГЇГ°Г ГўГ® ГўГўГҐГ°Гµ
 				{
 					while (--crd.Y > 0 && ++crd.X < 7 && field_analyze[crd.Y][crd.X].isBusy != 3 - turn);
 					if (crd.Y > 0 && crd.X < 7)
@@ -1204,7 +1203,7 @@ void analyze(int key)
 				z = 0;
 				crd.X = j;
 				crd.Y = i;
-				if (crd.X > 1 && crd.Y < 6)//рубка влево вниз
+				if (crd.X > 1 && crd.Y < 6)//Г°ГіГЎГЄГ  ГўГ«ГҐГўГ® ГўГ­ГЁГ§
 				{
 					while (++crd.Y < 7 && --crd.X > 0 && field_analyze[crd.Y][crd.X].isBusy != 3 - turn);
 					if (crd.Y < 7 && crd.X > 0)
@@ -1225,7 +1224,7 @@ void analyze(int key)
 				z = 0;
 				crd.X = j;
 				crd.Y = i;
-				if (crd.X < 6 && crd.Y < 6)//рубка вправо вниз
+				if (crd.X < 6 && crd.Y < 6)//Г°ГіГЎГЄГ  ГўГЇГ°Г ГўГ® ГўГ­ГЁГ§
 				{
 					while (++crd.Y < 7 && ++crd.X < 7 && field_analyze[crd.Y][crd.X].isBusy != 3 - turn);
 					if (crd.Y < 7 && crd.X < 7)
@@ -1260,56 +1259,56 @@ int check_end(int turn, int dif)
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 8; j++)
 		{
-			if (field[i][j].isBusy == white)//Подсчет количества доступных шашек и доступных ходов для белых
+			if (field[i][j].isBusy == white)//ГЏГ®Г¤Г±Г·ГҐГІ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ  Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГёГ ГёГҐГЄ ГЁ Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГµГ®Г¤Г®Гў Г¤Г«Гї ГЎГҐГ«Г»Гµ
 			{
-				cw++;//количество шашек
+				cw++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГёГ ГёГҐГЄ
 				for (int n = 0; n < 4; n++)
 				{
 					if (!(field[i][j].step[n].X == 0 && field[i][j].step[n].Y == 0))
 					{
-						stepw++;//количество рубок
+						stepw++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if (!(field[i][j].step_q[n][0].X == 0 && field[i][j].step_q[n][0].Y == 0))
 					{
-						stepw++;//количество рубок
+						stepw++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if ((!(field[i][j].cut[n].X == 0 && field[i][j].cut[n].Y == 0)))
 					{
-						stepw++;//количество рубок
+						stepw++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if (!(field[i][j].cut_q[n][0].X == 0 && field[i][j].cut_q[n][0].Y == 0))
 					{
-						stepw++;//количество рубок
+						stepw++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 				}
 			}
-			else if (field[i][j].isBusy == red)//Подсчет количества доступных шашек и доступных ходов для красных
+			else if (field[i][j].isBusy == red)//ГЏГ®Г¤Г±Г·ГҐГІ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ  Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГёГ ГёГҐГЄ ГЁ Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГµГ®Г¤Г®Гў Г¤Г«Гї ГЄГ°Г Г±Г­Г»Гµ
 			{
-				cr++;//количество шашек
+				cr++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГёГ ГёГҐГЄ
 				for (int n = 0; n < 4; n++)
 				{
 					if (!(field[i][j].step[n].X == 0 && field[i][j].step[n].Y == 0))
 					{
-						stepr++;//количество рубок
+						stepr++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if (!(field[i][j].step_q[n][0].X == 0 && field[i][j].step_q[n][0].Y == 0))
 					{
-						stepr++;//количество рубок
+						stepr++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if ((!(field[i][j].cut[n].X == 0 && field[i][j].cut[n].Y == 0)))
 					{
-						stepr++;//количество рубок
+						stepr++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 					if (!(field[i][j].cut_q[n][0].X == 0 && field[i][j].cut_q[n][0].Y == 0))
 					{
-						stepr++;//количество рубок
+						stepr++;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г°ГіГЎГ®ГЄ
 						break;
 					}
 				}
@@ -1321,7 +1320,7 @@ int check_end(int turn, int dif)
 		char name[SIZE_NAME];
 		memset(name, 0, sizeof(name));
 		gotoxy(0, 11);
-		printf("Вы проиграли..\nВведите своё имя:");
+		printf("Г‚Г» ГЇГ°Г®ГЁГЈГ°Г Г«ГЁ..\nГ‚ГўГҐГ¤ГЁГІГҐ Г±ГўГ®Вё ГЁГ¬Гї:");
 		gotoxy(0, 13);
 		//scanf("%s", name);
 		return 2;
@@ -1331,7 +1330,7 @@ int check_end(int turn, int dif)
 		char name[SIZE_NAME];
 		memset(name, 0, sizeof(name));
 		gotoxy(0, 11);
-		printf("Вы выиграли!!!\nВведите своё имя:");
+		printf("Г‚Г» ГўГ»ГЁГЈГ°Г Г«ГЁ!!!\nГ‚ГўГҐГ¤ГЁГІГҐ Г±ГўГ®Вё ГЁГ¬Гї:");
 		gotoxy(0, 13);
 		//scanf("%s", name);
 		//add_record(dif, name);
@@ -1344,21 +1343,21 @@ int choosing_dif()
 {
 	con_set_color(CON_CLR_WHITE, CON_CLR_BLUE);
 	clrscr();
-	char difficult[3][10] = { "Легко", "Нормально", "Сложно" };
+	char difficult[3][10] = { "Г‹ГҐГЈГЄГ®", "ГЌГ®Г°Г¬Г Г«ГјГ­Г®", "Г‘Г«Г®Г¦Г­Г®" };
 	int b = 0, menu_active_idx = 0;
 	int clr_font = CON_CLR_WHITE, clr_bg_active = CON_CLR_GRAY, btn_bg = CON_CLR_BLUE;
 	int flag = 0, last_act = 0;
 	gotoxy(51, 13);
-	printf("Выбор сложности:");
+	printf("Г‚Г»ГЎГ®Г° Г±Г«Г®Г¦Г­Г®Г±ГІГЁ:");
 	while (1)
 	{
 		b = 0;
-		while (b < 3)// Отрисовка уровней сложности
+		while (b < 3)// ГЋГІГ°ГЁГ±Г®ГўГЄГ  ГіГ°Г®ГўГ­ГҐГ© Г±Г«Г®Г¦Г­Г®Г±ГІГЁ
 		{
 			int left = 19 + 30 * b, top = 16;
 			btn_bg = CON_CLR_BLUE;
 			if (b == menu_active_idx)
-				btn_bg = clr_bg_active; // Если кнопка активна - то рисуется другим цветом
+				btn_bg = clr_bg_active; // Г…Г±Г«ГЁ ГЄГ­Г®ГЇГЄГ  Г ГЄГІГЁГўГ­Г  - ГІГ® Г°ГЁГ±ГіГҐГІГ±Гї Г¤Г°ГіГЈГЁГ¬ Г¶ГўГҐГІГ®Г¬
 
 			gotoxy(left, top);
 			con_set_color(clr_font, btn_bg);
@@ -1386,7 +1385,7 @@ int choosing_dif()
 		}
 		if (flag == 0)
 			flag = 1;
-		while (!key_is_pressed()) // Если пользователь нажимает кнопку
+		while (!key_is_pressed()) // Г…Г±Г«ГЁ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј Г­Г Г¦ГЁГ¬Г ГҐГІ ГЄГ­Г®ГЇГЄГі
 		{
 			int code = key_pressed_code();
 			if (code == KEY_ENTER)
@@ -1424,7 +1423,7 @@ void save_game()
 	char name[SIZE_NAME];
 	char info[SIZE_INFO];
 	memset(name, 0, sizeof(name));
-	printf("Введите название файла:");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ Г­Г Г§ГўГ Г­ГЁГҐ ГґГ Г©Г«Г :");
 	gotoxy(0, 6);
 	if (!scanf("%s", name))
 		return;
@@ -1438,7 +1437,7 @@ void save_game()
 		fputs(info, save);
 		i++;
 	}
-	printf("Игра успешно сохранена!");
+	printf("Г€ГЈГ°Г  ГіГ±ГЇГҐГёГ­Г® Г±Г®ГµГ°Г Г­ГҐГ­Г !");
 	//pause(2000);
 	fclose(log);
 	fclose(save);
@@ -1446,14 +1445,14 @@ void save_game()
 
 void help_info(int dif)
 {
-	char difficult[3][10] = { "Легко", "Нормально", "Сложно" };
+	char difficult[3][10] = { "Г‹ГҐГЈГЄГ®", "ГЌГ®Г°Г¬Г Г«ГјГ­Г®", "Г‘Г«Г®Г¦Г­Г®" };
 	con_set_color(CON_CLR_WHITE, CON_CLR_BLUE);
 	gotoxy(0, 1);
-	printf("Нажмите q или ESC для выхода без сохранения");
+	printf("ГЌГ Г¦Г¬ГЁГІГҐ q ГЁГ«ГЁ ESC Г¤Г«Гї ГўГ»ГµГ®Г¤Г  ГЎГҐГ§ Г±Г®ГµГ°Г Г­ГҐГ­ГЁГї");
 	gotoxy(0, 3);
-	printf("Нажмите s, чтобы сохранить игру");
+	printf("ГЌГ Г¦Г¬ГЁГІГҐ s, Г·ГІГ®ГЎГ» Г±Г®ГµГ°Г Г­ГЁГІГј ГЁГЈГ°Гі");
 	gotoxy(4, 9);
-	printf("Текущая сложность:");
+	printf("Г’ГҐГЄГіГ№Г Гї Г±Г«Г®Г¦Г­Г®Г±ГІГј:");
 	gotoxy(13 - strlen(difficult[dif]) / 2, 10);
 	printf("%s", difficult[dif]);
 }
@@ -1500,7 +1499,7 @@ void add_record(int dif, char* player)
 				flag = 1;
 			}
 		}
-	if (flag == 0)// Не нашли в таблице
+	if (flag == 0)// ГЌГҐ Г­Г ГёГ«ГЁ Гў ГІГ ГЎГ«ГЁГ¶ГҐ
 	{
 		j = 19;
 		while (j > -1 && count[dif][j] == 0)
@@ -1509,7 +1508,7 @@ void add_record(int dif, char* player)
 		count[dif][j] = 1;
 		strcpy(name[dif][j], player);
 	}
-	else // Нашли в таблице
+	else // ГЌГ ГёГ«ГЁ Гў ГІГ ГЎГ«ГЁГ¶ГҐ
 	{
 
 		while (sj > 0 && count[dif][sj] > count[dif][sj - 1])
@@ -1538,7 +1537,7 @@ void AI(int turn, int dif,COORD* crd, COORD* crd_new, int* is_multi, COORD path[
 	int count = 0, result, i, j, n, k;
 	if (dif == 0)
 	{
-		if (have_to_cut(turn, 1))// Поиск доступных рубок
+		if (have_to_cut(turn, 1))// ГЏГ®ГЁГ±ГЄ Г¤Г®Г±ГІГіГЇГ­Г»Гµ Г°ГіГЎГ®ГЄ
 		{
 			for (i = 0; i < 8; i++)
 				for (j = 0; j < 8; j++)
@@ -1590,7 +1589,7 @@ void AI(int turn, int dif,COORD* crd, COORD* crd_new, int* is_multi, COORD path[
 								}
 				}
 		}
-		else// Поиск доступных ходов
+		else// ГЏГ®ГЁГ±ГЄ Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГµГ®Г¤Г®Гў
 		{
 			for (i = 0; i < 8; i++)
 				for (j = 0; j < 8; j++)
@@ -1645,44 +1644,44 @@ void AI(int turn, int dif,COORD* crd, COORD* crd_new, int* is_multi, COORD path[
 	}
 	else if (dif == 1)
 	{
-		COORD save_move[MAX_COUNT_TURNS][2], path1[MAX_COUNT_TURNS][8];// path1 содержит все переходные точки для каждого хода(если шашка срубает больше чем одну)
+		COORD save_move[MAX_COUNT_TURNS][2], path1[MAX_COUNT_TURNS][8];// path1 Г±Г®Г¤ГҐГ°Г¦ГЁГІ ГўГ±ГҐ ГЇГҐГ°ГҐГµГ®Г¤Г­Г»ГҐ ГІГ®Г·ГЄГЁ Г¤Г«Гї ГЄГ Г¦Г¤Г®ГЈГ® ГµГ®Г¤Г (ГҐГ±Г«ГЁ ГёГ ГёГЄГ  Г±Г°ГіГЎГ ГҐГІ ГЎГ®Г«ГјГёГҐ Г·ГҐГ¬ Г®Г¤Г­Гі)
 		memset(path1, 0, sizeof(path1));
 		memset(save_move, 0, sizeof(save_move));
 		int n = 0, act;
 		memcpy(field_tmp, field, sizeof(field));
-		act = minimax(turn, turn, NORMAL_DEPTH, &save_move, &n, path1);//Просчет идеального хода, возвращает индекс хода в массиве всех ходов
-		*crd = save_move[n][0];//Начало хода
-		*crd_new = save_move[n][1];// Конец хода
-		if (!(path1[act][0].X == 0 && path1[act][0].Y == 0))//Если несколько рубок одной шашкой, то is_multi = 1
+		act = minimax(turn, turn, NORMAL_DEPTH, &save_move, &n, path1);//ГЏГ°Г®Г±Г·ГҐГІ ГЁГ¤ГҐГ Г«ГјГ­Г®ГЈГ® ГµГ®Г¤Г , ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГЁГ­Г¤ГҐГЄГ± ГµГ®Г¤Г  Гў Г¬Г Г±Г±ГЁГўГҐ ГўГ±ГҐГµ ГµГ®Г¤Г®Гў
+		*crd = save_move[n][0];//ГЌГ Г·Г Г«Г® ГµГ®Г¤Г 
+		*crd_new = save_move[n][1];// ГЉГ®Г­ГҐГ¶ ГµГ®Г¤Г 
+		if (!(path1[act][0].X == 0 && path1[act][0].Y == 0))//Г…Г±Г«ГЁ Г­ГҐГ±ГЄГ®Г«ГјГЄГ® Г°ГіГЎГ®ГЄ Г®Г¤Г­Г®Г© ГёГ ГёГЄГ®Г©, ГІГ® is_multi = 1
 			*is_multi = 1;
 		else
 			*is_multi = 0;
-		memcpy(path, path1[act], sizeof(path));//Весь путь который шашка проходит, записываем во входящую переменную
+		memcpy(path, path1[act], sizeof(path));//Г‚ГҐГ±Гј ГЇГіГІГј ГЄГ®ГІГ®Г°Г»Г© ГёГ ГёГЄГ  ГЇГ°Г®ГµГ®Г¤ГЁГІ, Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГўГ® ГўГµГ®Г¤ГїГ№ГіГѕ ГЇГҐГ°ГҐГ¬ГҐГ­Г­ГіГѕ
 	}
 	else if (dif == 2)
 	{
-		COORD save_move[MAX_COUNT_TURNS][2], path1[MAX_COUNT_TURNS][8];//path1 содержит все переходные точки для каждого хода(если шашка срубает больше чем одну)
+		COORD save_move[MAX_COUNT_TURNS][2], path1[MAX_COUNT_TURNS][8];//path1 Г±Г®Г¤ГҐГ°Г¦ГЁГІ ГўГ±ГҐ ГЇГҐГ°ГҐГµГ®Г¤Г­Г»ГҐ ГІГ®Г·ГЄГЁ Г¤Г«Гї ГЄГ Г¦Г¤Г®ГЈГ® ГµГ®Г¤Г (ГҐГ±Г«ГЁ ГёГ ГёГЄГ  Г±Г°ГіГЎГ ГҐГІ ГЎГ®Г«ГјГёГҐ Г·ГҐГ¬ Г®Г¤Г­Гі)
 		memset(path1, 0, sizeof(path1));
 		memset(save_move, 0, sizeof(save_move));
 		int n = 0, act;
 		memcpy(field_tmp, field, sizeof(field));
-		act = alpha_beta(turn, turn, HARD_DEPTH, -10000, 10000, &save_move, &n, path1);//Просчет идеального хода, возвращает индекс хода в массиве всех ходов
-		*crd = save_move[n][0];//Начало хода
-		*crd_new = save_move[n][1];// Конец хода
-		if (!(path1[act][0].X == 0 && path1[act][0].Y == 0))//Если несколько рубок одной шашкой, то is_multi = 1
+		act = alpha_beta(turn, turn, HARD_DEPTH, -10000, 10000, &save_move, &n, path1);//ГЏГ°Г®Г±Г·ГҐГІ ГЁГ¤ГҐГ Г«ГјГ­Г®ГЈГ® ГµГ®Г¤Г , ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГЁГ­Г¤ГҐГЄГ± ГµГ®Г¤Г  Гў Г¬Г Г±Г±ГЁГўГҐ ГўГ±ГҐГµ ГµГ®Г¤Г®Гў
+		*crd = save_move[n][0];//ГЌГ Г·Г Г«Г® ГµГ®Г¤Г 
+		*crd_new = save_move[n][1];// ГЉГ®Г­ГҐГ¶ ГµГ®Г¤Г 
+		if (!(path1[act][0].X == 0 && path1[act][0].Y == 0))//Г…Г±Г«ГЁ Г­ГҐГ±ГЄГ®Г«ГјГЄГ® Г°ГіГЎГ®ГЄ Г®Г¤Г­Г®Г© ГёГ ГёГЄГ®Г©, ГІГ® is_multi = 1
 			*is_multi = 1;
 		else
 			*is_multi = 0;
-		memcpy(path, path1[act], sizeof(path));//Весь путь который шашка проходит, записываем во входящую переменную
+		memcpy(path, path1[act], sizeof(path));//Г‚ГҐГ±Гј ГЇГіГІГј ГЄГ®ГІГ®Г°Г»Г© ГёГ ГёГЄГ  ГЇГ°Г®ГµГ®Г¤ГЁГІ, Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГўГ® ГўГµГ®Г¤ГїГ№ГіГѕ ГЇГҐГ°ГҐГ¬ГҐГ­Г­ГіГѕ
 	}
 }
 
 int minimax(int global_turn, int turn, int depth, COORD save_move[MAX_COUNT_TURNS][2], int* n, COORD path[MAX_COUNT_TURNS][8])
 {
-	if (depth == 0) return evaluate(turn);//оценка позиции
+	if (depth == 0) return evaluate(turn);//Г®Г¶ГҐГ­ГЄГ  ГЇГ®Г§ГЁГ¶ГЁГЁ
 
 	int score = -10000, is_cut = 0, was_queen[10], op_turn = 3 - turn, value = 0;
-	if (depth % 2 == 0)//для четных ищем максимум, для нечетных - минимум
+	if (depth % 2 == 0)//Г¤Г«Гї Г·ГҐГІГ­Г»Гµ ГЁГ№ГҐГ¬ Г¬Г ГЄГ±ГЁГ¬ГіГ¬, Г¤Г«Гї Г­ГҐГ·ГҐГІГ­Г»Гµ - Г¬ГЁГ­ГЁГ¬ГіГ¬
 		value = -10000;
 	else
 		value = 10000;
@@ -1693,17 +1692,17 @@ int minimax(int global_turn, int turn, int depth, COORD save_move[MAX_COUNT_TURN
 	memset(path1, 0, sizeof(path1));
 
 	analyze(TMP);
-	find_moves(moves, eated_checker, turn, path);//просчет увсех доступных ходов
+	find_moves(moves, eated_checker, turn, path);//ГЇГ°Г®Г±Г·ГҐГІ ГіГўГ±ГҐГµ Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГµГ®Г¤Г®Гў
 	memcpy(path1, path, sizeof(path1));
 	int i = 0;
 	while (!(moves[i][0].X == 0 && moves[i][0].Y == 0) && !(moves[i][1].X == 0 && moves[i][1].Y == 0))
-	{//пока есть доступные ходы
+	{//ГЇГ®ГЄГ  ГҐГ±ГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г»
 		move_forward(&moves[i][0], &moves[i][1], turn, eated_checker, i, was_queen);
 		int tmp = minimax(global_turn, op_turn, depth - 1, save_move, n, path);
 		move_back(&moves[i][0], &moves[i][1], turn, &eated_checker[i], was_queen, ALL);
-		was_queen[9] = 0;// [9] показывает дамка ли шашка, которая ходит
+		was_queen[9] = 0;// [9] ГЇГ®ГЄГ Г§Г»ГўГ ГҐГІ Г¤Г Г¬ГЄГ  Г«ГЁ ГёГ ГёГЄГ , ГЄГ®ГІГ®Г°Г Гї ГµГ®Г¤ГЁГІ
 
-		if (depth == NORMAL_DEPTH && tmp > value)// если находимся на вершине и больше уже найденного, значит записываем
+		if (depth == NORMAL_DEPTH && tmp > value)// ГҐГ±Г«ГЁ Г­Г ГµГ®Г¤ГЁГ¬Г±Гї Г­Г  ГўГҐГ°ГёГЁГ­ГҐ ГЁ ГЎГ®Г«ГјГёГҐ ГіГ¦ГҐ Г­Г Г©Г¤ГҐГ­Г­Г®ГЈГ®, Г§Г­Г Г·ГЁГІ Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬
 		{
 			(*n) = 0;
 			memset(save_move, 0, sizeof(COORD) * 56);
@@ -1712,35 +1711,35 @@ int minimax(int global_turn, int turn, int depth, COORD save_move[MAX_COUNT_TURN
 			(*n)++;
 			value = tmp;
 		}
-		else if (depth == NORMAL_DEPTH && tmp == value)// если находимся на вершине и равно наибольшему, дописываем в массив идеальных ходов
+		else if (depth == NORMAL_DEPTH && tmp == value)// ГҐГ±Г«ГЁ Г­Г ГµГ®Г¤ГЁГ¬Г±Гї Г­Г  ГўГҐГ°ГёГЁГ­ГҐ ГЁ Г°Г ГўГ­Г® Г­Г ГЁГЎГ®Г«ГјГёГҐГ¬Гі, Г¤Г®ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў Г¬Г Г±Г±ГЁГў ГЁГ¤ГҐГ Г«ГјГ­Г»Гµ ГµГ®Г¤Г®Гў
 		{
 			save_move[*n][0] = moves[i][0];
 			save_move[*n][1] = moves[i][1];
 			(*n)++;
 		}
-		else if (depth % 2 == 0 && tmp > value || depth % 2 != 0 && tmp < value)// если лучше, чем уже найденный(max/min), то запомним его
+		else if (depth % 2 == 0 && tmp > value || depth % 2 != 0 && tmp < value)// ГҐГ±Г«ГЁ Г«ГіГ·ГёГҐ, Г·ГҐГ¬ ГіГ¦ГҐ Г­Г Г©Г¤ГҐГ­Г­Г»Г©(max/min), ГІГ® Г§Г ГЇГ®Г¬Г­ГЁГ¬ ГҐГЈГ®
 			value = tmp;
 		i++;
 	}
-	if (depth == NORMAL_DEPTH)//окончательная обработка результата
+	if (depth == NORMAL_DEPTH)//Г®ГЄГ®Г­Г·Г ГІГҐГ«ГјГ­Г Гї Г®ГЎГ°Г ГЎГ®ГІГЄГ  Г°ГҐГ§ГіГ«ГјГІГ ГІГ 
 	{
 		memcpy(path, path1, sizeof(path1));
 		int act;
 		int g = 1;
-		while (!(save_move[g][0].X == 0 && save_move[g][0].Y == 0))//считаем количество лучших ходов
+		while (!(save_move[g][0].X == 0 && save_move[g][0].Y == 0))//Г±Г·ГЁГІГ ГҐГ¬ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г«ГіГ·ГёГЁГµ ГµГ®Г¤Г®Гў
 			g++;
 		srand(time(NULL));
-		act = rand() % g;// если их несколько, выбираем рандомом
+		act = rand() % g;// ГҐГ±Г«ГЁ ГЁГµ Г­ГҐГ±ГЄГ®Г«ГјГЄГ®, ГўГ»ГЎГЁГ°Г ГҐГ¬ Г°Г Г­Г¤Г®Г¬Г®Г¬
 		g = 0;
 		while (!(save_move[act][0].X == moves[g][0].X && save_move[act][0].Y == moves[g][0].Y && save_move[act][1].X == moves[g][1].X && save_move[act][1].Y == moves[g][1].Y))
-			g++;// ищем индекс идеального хода в массиве ходов
+			g++;// ГЁГ№ГҐГ¬ ГЁГ­Г¤ГҐГЄГ± ГЁГ¤ГҐГ Г«ГјГ­Г®ГЈГ® ГµГ®Г¤Г  Гў Г¬Г Г±Г±ГЁГўГҐ ГµГ®Г¤Г®Гў
 		(*n) = act;
-		return g;//возвращаем тот самый индекс
+		return g;//ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ ГІГ®ГІ Г±Г Г¬Г»Г© ГЁГ­Г¤ГҐГЄГ±
 	}
 	if (moves[0][0].X == 0 && moves[0][0].Y == 0 && moves[0][1].X == 0 && moves[0][1].Y == 0 && turn != global_turn)
-		return 200 + depth;//если ходов белых нет, значит победа для красных и даем очень большое кол-во очков
+		return 200 + depth;//ГҐГ±Г«ГЁ ГµГ®Г¤Г®Гў ГЎГҐГ«Г»Гµ Г­ГҐГІ, Г§Г­Г Г·ГЁГІ ГЇГ®ГЎГҐГ¤Г  Г¤Г«Гї ГЄГ°Г Г±Г­Г»Гµ ГЁ Г¤Г ГҐГ¬ Г®Г·ГҐГ­Гј ГЎГ®Г«ГјГёГ®ГҐ ГЄГ®Г«-ГўГ® Г®Г·ГЄГ®Гў
 	if (moves[0][0].X == 0 && moves[0][0].Y == 0 && moves[0][1].X == 0 && moves[0][1].Y == 0 && turn == global_turn)
-		return -200 + depth;//если ходов красных нет, значит победа для белых и даем очень маленькое кол-во очков
+		return -200 + depth;//ГҐГ±Г«ГЁ ГµГ®Г¤Г®Гў ГЄГ°Г Г±Г­Г»Гµ Г­ГҐГІ, Г§Г­Г Г·ГЁГІ ГЇГ®ГЎГҐГ¤Г  Г¤Г«Гї ГЎГҐГ«Г»Гµ ГЁ Г¤Г ГҐГ¬ Г®Г·ГҐГ­Гј Г¬Г Г«ГҐГ­ГјГЄГ®ГҐ ГЄГ®Г«-ГўГ® Г®Г·ГЄГ®Гў
 	return value;
 }
 
@@ -1753,18 +1752,18 @@ int alpha_beta(int global_turn, int turn, int depth, int alpha, int beta, COORD 
 	memset(moves, 0, sizeof(moves));
 	memset(was_queen, 0, sizeof(was_queen));
 	analyze(TMP);
-	find_moves(moves, eated_checker, turn, path);//просчет всех доступных ходов
+	find_moves(moves, eated_checker, turn, path);//ГЇГ°Г®Г±Г·ГҐГІ ГўГ±ГҐГµ Г¤Г®Г±ГІГіГЇГ­Г»Гµ ГµГ®Г¤Г®Гў
 	COORD path1[MAX_COUNT_TURNS][8];
 	memset(path1, 0, sizeof(path1));
 	memcpy(path1, path, sizeof(path1));
 	int i = 0;
 	while (!(moves[i][0].X == 0 && moves[i][0].Y == 0) && !(moves[i][1].X == 0 && moves[i][1].Y == 0) && alpha < beta)
-	{//пока есть доступные ходы и a>=b(ab-отсечение)
+	{//ГЇГ®ГЄГ  ГҐГ±ГІГј Г¤Г®Г±ГІГіГЇГ­Г»ГҐ ГµГ®Г¤Г» ГЁ a>=b(ab-Г®ГІГ±ГҐГ·ГҐГ­ГЁГҐ)
 		move_forward(&moves[i][0], &moves[i][1], turn, eated_checker, i, was_queen);
 		int tmp = alpha_beta(global_turn, op_turn, depth - 1, alpha, beta, save_move, n, path);
 		move_back(&moves[i][0], &moves[i][1], turn, &eated_checker[i], was_queen, ALL);
-		was_queen[9] = 0;// [9] показывает дамка ли шашка, которая ходит
-		if (depth == HARD_DEPTH && tmp > alpha)// если находимся на вершине и больше уже найденного, значит записываем
+		was_queen[9] = 0;// [9] ГЇГ®ГЄГ Г§Г»ГўГ ГҐГІ Г¤Г Г¬ГЄГ  Г«ГЁ ГёГ ГёГЄГ , ГЄГ®ГІГ®Г°Г Гї ГµГ®Г¤ГЁГІ
+		if (depth == HARD_DEPTH && tmp > alpha)// ГҐГ±Г«ГЁ Г­Г ГµГ®Г¤ГЁГ¬Г±Гї Г­Г  ГўГҐГ°ГёГЁГ­ГҐ ГЁ ГЎГ®Г«ГјГёГҐ ГіГ¦ГҐ Г­Г Г©Г¤ГҐГ­Г­Г®ГЈГ®, Г§Г­Г Г·ГЁГІ Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬
 		{
 			(*n) = 0;
 			memset(save_move, 0, sizeof(COORD) * 56);
@@ -1773,45 +1772,45 @@ int alpha_beta(int global_turn, int turn, int depth, int alpha, int beta, COORD 
 			(*n)++;
 			alpha = tmp;
 		}
-		else if (depth == HARD_DEPTH && tmp == alpha)// если находимся на вершине и равно наибольшему, дописываем в массив идеальных ходов
+		else if (depth == HARD_DEPTH && tmp == alpha)// ГҐГ±Г«ГЁ Г­Г ГµГ®Г¤ГЁГ¬Г±Гї Г­Г  ГўГҐГ°ГёГЁГ­ГҐ ГЁ Г°Г ГўГ­Г® Г­Г ГЁГЎГ®Г«ГјГёГҐГ¬Гі, Г¤Г®ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў Г¬Г Г±Г±ГЁГў ГЁГ¤ГҐГ Г«ГјГ­Г»Гµ ГµГ®Г¤Г®Гў
 		{
 			save_move[*n][0] = moves[i][0];
 			save_move[*n][1] = moves[i][1];
 			(*n)++;
 		}
-		else if (depth < HARD_DEPTH && turn == red && tmp > alpha)// если лучше, чем уже найденный для красных, запоминаем
+		else if (depth < HARD_DEPTH && turn == red && tmp > alpha)// ГҐГ±Г«ГЁ Г«ГіГ·ГёГҐ, Г·ГҐГ¬ ГіГ¦ГҐ Г­Г Г©Г¤ГҐГ­Г­Г»Г© Г¤Г«Гї ГЄГ°Г Г±Г­Г»Гµ, Г§Г ГЇГ®Г¬ГЁГ­Г ГҐГ¬
 			alpha = tmp;
-		else if (depth < HARD_DEPTH && turn == white && tmp < beta)// если хуже уже найденный для белых, запоминаем
+		else if (depth < HARD_DEPTH && turn == white && tmp < beta)// ГҐГ±Г«ГЁ ГµГіГ¦ГҐ ГіГ¦ГҐ Г­Г Г©Г¤ГҐГ­Г­Г»Г© Г¤Г«Гї ГЎГҐГ«Г»Гµ, Г§Г ГЇГ®Г¬ГЁГ­Г ГҐГ¬
 			beta = tmp;
 		i++;
 	}
-	if (depth == HARD_DEPTH)//окончательная обработка результата
+	if (depth == HARD_DEPTH)//Г®ГЄГ®Г­Г·Г ГІГҐГ«ГјГ­Г Гї Г®ГЎГ°Г ГЎГ®ГІГЄГ  Г°ГҐГ§ГіГ«ГјГІГ ГІГ 
 	{
 		memcpy(path, path1, sizeof(path1));
 		int act;
 		int g = 1;
 		while (!(save_move[g][0].X == 0 && save_move[g][0].Y == 0))
-			g++;//считаем количество лучших ходов
+			g++;//Г±Г·ГЁГІГ ГҐГ¬ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г«ГіГ·ГёГЁГµ ГµГ®Г¤Г®Гў
 		srand(time(NULL));
-		act = rand() % g;// если их несколько, выбираем рандомом
+		act = rand() % g;// ГҐГ±Г«ГЁ ГЁГµ Г­ГҐГ±ГЄГ®Г«ГјГЄГ®, ГўГ»ГЎГЁГ°Г ГҐГ¬ Г°Г Г­Г¤Г®Г¬Г®Г¬
 		g = 0;
 		while (!(save_move[act][0].X == moves[g][0].X && save_move[act][0].Y == moves[g][0].Y && save_move[act][1].X == moves[g][1].X && save_move[act][1].Y == moves[g][1].Y))
-			g++;// ищем индекс идеального хода в массиве ходов
+			g++;// ГЁГ№ГҐГ¬ ГЁГ­Г¤ГҐГЄГ± ГЁГ¤ГҐГ Г«ГјГ­Г®ГЈГ® ГµГ®Г¤Г  Гў Г¬Г Г±Г±ГЁГўГҐ ГµГ®Г¤Г®Гў
 		(*n) = act;
-		return g;//возвращаем тот самый индекс
+		return g;//ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ ГІГ®ГІ Г±Г Г¬Г»Г© ГЁГ­Г¤ГҐГЄГ±
 	}
 	if (moves[0][0].X == 0 && moves[0][0].Y == 0 && moves[0][1].X == 0 && moves[0][1].Y == 0 && turn != global_turn)
-		return 200 + depth;//если ходов белых нет, значит победа для красных и даем очень большое кол-во очков
+		return 200 + depth;//ГҐГ±Г«ГЁ ГµГ®Г¤Г®Гў ГЎГҐГ«Г»Гµ Г­ГҐГІ, Г§Г­Г Г·ГЁГІ ГЇГ®ГЎГҐГ¤Г  Г¤Г«Гї ГЄГ°Г Г±Г­Г»Гµ ГЁ Г¤Г ГҐГ¬ Г®Г·ГҐГ­Гј ГЎГ®Г«ГјГёГ®ГҐ ГЄГ®Г«-ГўГ® Г®Г·ГЄГ®Гў
 	if (moves[0][0].X == 0 && moves[0][0].Y == 0 && moves[0][1].X == 0 && moves[0][1].Y == 0 && turn == global_turn)
-		return -200 + depth;//если ходов красных нет, значит победа для белых и даем очень маленькое кол-во очков
+		return -200 + depth;//ГҐГ±Г«ГЁ ГµГ®Г¤Г®Гў ГЄГ°Г Г±Г­Г»Гµ Г­ГҐГІ, Г§Г­Г Г·ГЁГІ ГЇГ®ГЎГҐГ¤Г  Г¤Г«Гї ГЎГҐГ«Г»Гµ ГЁ Г¤Г ГҐГ¬ Г®Г·ГҐГ­Гј Г¬Г Г«ГҐГ­ГјГЄГ®ГҐ ГЄГ®Г«-ГўГ® Г®Г·ГЄГ®Гў
 	if (alpha >= beta && turn == global_turn)
-		return 10000;//Если нарушилось условие ab => не считаем эту ветку за идеальную
+		return 10000;//Г…Г±Г«ГЁ Г­Г Г°ГіГёГЁГ«Г®Г±Гј ГіГ±Г«Г®ГўГЁГҐ ab => Г­ГҐ Г±Г·ГЁГІГ ГҐГ¬ ГЅГІГі ГўГҐГІГЄГі Г§Г  ГЁГ¤ГҐГ Г«ГјГ­ГіГѕ
 	if (alpha >= beta && turn != global_turn)
-		return -10000;//Если нарушилось условие ab => не считаем эту ветку за идеальную
+		return -10000;//Г…Г±Г«ГЁ Г­Г Г°ГіГёГЁГ«Г®Г±Гј ГіГ±Г«Г®ГўГЁГҐ ab => Г­ГҐ Г±Г·ГЁГІГ ГҐГ¬ ГЅГІГі ГўГҐГІГЄГі Г§Г  ГЁГ¤ГҐГ Г«ГјГ­ГіГѕ
 	if (turn == global_turn)
-		return alpha;//Получившееся значение передаем во внешнюю функцию для сравнения с одноуровневыми
+		return alpha;//ГЏГ®Г«ГіГ·ГЁГўГёГҐГҐГ±Гї Г§Г­Г Г·ГҐГ­ГЁГҐ ГЇГҐГ°ГҐГ¤Г ГҐГ¬ ГўГ® ГўГ­ГҐГёГ­ГѕГѕ ГґГіГ­ГЄГ¶ГЁГѕ Г¤Г«Гї Г±Г°Г ГўГ­ГҐГ­ГЁГї Г± Г®Г¤Г­Г®ГіГ°Г®ГўГ­ГҐГўГ»Г¬ГЁ
 	if (turn != global_turn)
-		return beta;//Получившееся значение передаем во внешнюю функцию для сравнения с одноуровневыми
+		return beta;//ГЏГ®Г«ГіГ·ГЁГўГёГҐГҐГ±Гї Г§Г­Г Г·ГҐГ­ГЁГҐ ГЇГҐГ°ГҐГ¤Г ГҐГ¬ ГўГ® ГўГ­ГҐГёГ­ГѕГѕ ГґГіГ­ГЄГ¶ГЁГѕ Г¤Г«Гї Г±Г°Г ГўГ­ГҐГ­ГЁГї Г± Г®Г¤Г­Г®ГіГ°Г®ГўГ­ГҐГўГ»Г¬ГЁ
 }
 
 void find_moves(COORD moves[MAX_COUNT_TURNS][2], COORD eated_checker[MAX_COUNT_TURNS][9], int turn, COORD path[MAX_COUNT_TURNS][8])
@@ -1984,7 +1983,7 @@ int evaluate(int turn)
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 8; j++)
 		{
-			if (field_tmp[i][j].isBusy == 3 - turn)// штраф за наличие вражеских шашек
+			if (field_tmp[i][j].isBusy == 3 - turn)// ГёГІГ°Г Гґ Г§Г  Г­Г Г«ГЁГ·ГЁГҐ ГўГ°Г Г¦ГҐГ±ГЄГЁГµ ГёГ ГёГҐГЄ
 			{
 				if (3 - turn == white)
 					value -= 18 - i;
@@ -1993,23 +1992,23 @@ int evaluate(int turn)
 			}
 			if (field_tmp[i][j].isBusy == turn)
 			{
-				if (turn == red)//важная позиция
+				if (turn == red)//ГўГ Г¦Г­Г Гї ГЇГ®Г§ГЁГ¶ГЁГї
 				{
 					if (i == 4 && j == 7)
 						value += 5;
 					if (field_tmp[3][0].isBusy == white)
 						value -= 5;
 				}
-				if (turn == white)//важная позиция
+				if (turn == white)//ГўГ Г¦Г­Г Гї ГЇГ®Г§ГЁГ¶ГЁГї
 				{
 					if (i == 3 && j == 0)
 						value += 5;
 					if (field_tmp[4][7].isBusy == red)
 						value -= 5;
 				}
-				value += is_weak(i, j);//слабые места конкретной шашки
-				value += help_defend(i, j);//помогает ли защищать соседние
-				if (field_tmp[i][j].isQueen == true)// проверка, рубит ли чужие шашки
+				value += is_weak(i, j);//Г±Г«Г ГЎГ»ГҐ Г¬ГҐГ±ГІГ  ГЄГ®Г­ГЄГ°ГҐГІГ­Г®Г© ГёГ ГёГЄГЁ
+				value += help_defend(i, j);//ГЇГ®Г¬Г®ГЈГ ГҐГІ Г«ГЁ Г§Г Г№ГЁГ№Г ГІГј Г±Г®Г±ГҐГ¤Г­ГЁГҐ
+				if (field_tmp[i][j].isQueen == true)// ГЇГ°Г®ГўГҐГ°ГЄГ , Г°ГіГЎГЁГІ Г«ГЁ Г·ГіГ¦ГЁГҐ ГёГ ГёГЄГЁ
 				{
 					value += 8;
 					n = i;
@@ -2034,16 +2033,16 @@ int evaluate(int turn)
 						if (field_tmp[n][k].isBusy == 3 - turn && field_tmp[n + 1][k + 1].isBusy == no)
 							value += inc;
 				}
-				else if (turn == red)// бонус за продвижение к дамке
+				else if (turn == red)// ГЎГ®Г­ГіГ± Г§Г  ГЇГ°Г®Г¤ГўГЁГ¦ГҐГ­ГЁГҐ ГЄ Г¤Г Г¬ГЄГҐ
 					value += i + 11;
-				else if (turn == white)// бонус за продвижение к дамке
+				else if (turn == white)// ГЎГ®Г­ГіГ± Г§Г  ГЇГ°Г®Г¤ГўГЁГ¦ГҐГ­ГЁГҐ ГЄ Г¤Г Г¬ГЄГҐ
 					value += 18 - i;
 				}
 			}
 	return value;
 		}
 
-void eating_theory(COORD crd)//рубка в просчете ходов
+void eating_theory(COORD crd)//Г°ГіГЎГЄГ  Гў ГЇГ°Г®Г±Г·ГҐГІГҐ ГµГ®Г¤Г®Гў
 {
 	field_tmp[crd.X][crd.Y].isBusy = no;
 	field_tmp[crd.X][crd.Y].isQueen = false;
@@ -2058,7 +2057,7 @@ int is_weak(int X, int Y)
 	int turn = field_tmp[X][Y].isBusy;
 	int power = 0;
 	if (X > 0 && Y > 0 && X < 7 && Y < 7 && field_tmp[X + 1][Y + 1].isBusy == no && field_tmp[X - 1][Y - 1].isBusy == 3 - turn)
-		power -= 5;//находится ли под рубкой шашки(ниже аналогично)
+		power -= 5;//Г­Г ГµГ®Г¤ГЁГІГ±Гї Г«ГЁ ГЇГ®Г¤ Г°ГіГЎГЄГ®Г© ГёГ ГёГЄГЁ(Г­ГЁГ¦ГҐ Г Г­Г Г«Г®ГЈГЁГ·Г­Г®)
 	if (X > 0 && Y > 0 && X < 7 && Y < 7 && field_tmp[X - 1][Y - 1].isBusy == no && field_tmp[X + 1][Y + 1].isBusy == 3 - turn)
 		power -= 5;
 	if (X > 0 && Y > 0 && X < 7 && Y < 7 && field_tmp[X - 1][Y + 1].isBusy == no && field_tmp[X + 1][Y - 1].isBusy == 3 - turn)
@@ -2073,7 +2072,7 @@ int is_weak(int X, int Y)
 		power += 5;
 	if (X > 0 && Y > 1 && X < 6 && Y < 7 && field_tmp[X + 1][Y - 1].isBusy == 3 - turn && field_tmp[X + 2][Y - 2].isBusy == no)
 		power += 5;
-	if (X < 7 && X > 0 && Y > 0 && Y < 7) // находится ли под рубкой дамки
+	if (X < 7 && X > 0 && Y > 0 && Y < 7) // Г­Г ГµГ®Г¤ГЁГІГ±Гї Г«ГЁ ГЇГ®Г¤ Г°ГіГЎГЄГ®Г© Г¤Г Г¬ГЄГЁ
 	{
 		if (field_tmp[X + 1][Y + 1].isBusy == no)
 		{
@@ -2150,54 +2149,54 @@ void deep_search(int turn, COORD crd, COORD moves[MAX_COUNT_TURNS][2], COORD eat
 	COORD new_coord = { 0,0 };
 	int result = 0, is_cut = 0, was_queen[10], k = 0, first = 1;
 	memset(was_queen, 0, sizeof(was_queen));
-	int ind_for_copy = (*ind) - 1;// индекс для копирования предыдущих частей хода
-	int count_eated_prev = i;//количество съеденых шашек до этого хода
-	for (int n = 0; n < 4; n++)//цикл по всем рубкам
+	int ind_for_copy = (*ind) - 1;// ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГЁГµ Г·Г Г±ГІГҐГ© ГµГ®Г¤Г 
+	int count_eated_prev = i;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГєГҐГ¤ГҐГ­Г»Гµ ГёГ ГёГҐГЄ Г¤Г® ГЅГІГ®ГЈГ® ГµГ®Г¤Г 
+	for (int n = 0; n < 4; n++)//Г¶ГЁГЄГ« ГЇГ® ГўГ±ГҐГ¬ Г°ГіГЎГЄГ Г¬
 	{
 		analyze(TMP);
 		if (!(field_tmp[crd.X][crd.Y].cut[n].X == 0 && field_tmp[crd.X][crd.Y].cut[n].Y == 0))
-		{//если есть доступная рубка
-			moves[*ind][0].X = start_coord.X;//записываем как ход
+		{//ГҐГ±Г«ГЁ ГҐГ±ГІГј Г¤Г®Г±ГІГіГЇГ­Г Гї Г°ГіГЎГЄГ 
+			moves[*ind][0].X = start_coord.X;//Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЄГ ГЄ ГµГ®Г¤
 			moves[*ind][0].Y = start_coord.Y;
 			moves[*ind][1].X = field_tmp[crd.X][crd.Y].cut[n].X;
 			moves[*ind][1].Y = field_tmp[crd.X][crd.Y].cut[n].Y;
 			int z = 0;
 			while (!(eated_checker[ind_for_copy][z].X == 0 && eated_checker[ind_for_copy][z].Y == 0) && ind_for_copy > -1)
-			{//если до этого в серии ходов были съедены шашки, копируем их для текущего хода
+			{//ГҐГ±Г«ГЁ Г¤Г® ГЅГІГ®ГЈГ® Гў Г±ГҐГ°ГЁГЁ ГµГ®Г¤Г®Гў ГЎГ»Г«ГЁ Г±ГєГҐГ¤ГҐГ­Г» ГёГ ГёГЄГЁ, ГЄГ®ГЇГЁГ°ГіГҐГ¬ ГЁГµ Г¤Г«Гї ГІГҐГЄГіГ№ГҐГЈГ® ГµГ®Г¤Г 
 				eated_checker[*ind][z].X = eated_checker[ind_for_copy][z].X;
 				eated_checker[*ind][z].Y = eated_checker[ind_for_copy][z].Y;
 				z++;
 			}
 			if (start_coord.X == crd.X && start_coord.Y == crd.Y && first == 1)
-			{//для первого входа, обнуляем массив
+			{//Г¤Г«Гї ГЇГҐГ°ГўГ®ГЈГ® ГўГµГ®Г¤Г , Г®ГЎГ­ГіГ«ГїГҐГ¬ Г¬Г Г±Г±ГЁГў
 				memset(eated_checker, 0, sizeof(eated_checker));
 				i = 0;
 				first = 0;
 			}
 			else if (start_coord.X == crd.X && start_coord.Y == crd.Y)
-				i = 0;// если первый ход имел несколько вариаций, съеденых шашек для второй и тд вариаций будет 0
+				i = 0;// ГҐГ±Г«ГЁ ГЇГҐГ°ГўГ»Г© ГµГ®Г¤ ГЁГ¬ГҐГ« Г­ГҐГ±ГЄГ®Г«ГјГЄГ® ГўГ Г°ГЁГ Г¶ГЁГ©, Г±ГєГҐГ¤ГҐГ­Г»Гµ ГёГ ГёГҐГЄ Г¤Г«Гї ГўГІГ®Г°Г®Г© ГЁ ГІГ¤ ГўГ Г°ГЁГ Г¶ГЁГ© ГЎГіГ¤ГҐГІ 0
 			else
 			{
 				int k = 0;
 				while (!(path[ind_for_copy][k].X == 0 && path[ind_for_copy][k].Y == 0))
-				{//если путь состоит не из одной рубки, записываем промежуточные позиции
+				{//ГҐГ±Г«ГЁ ГЇГіГІГј Г±Г®Г±ГІГ®ГЁГІ Г­ГҐ ГЁГ§ Г®Г¤Г­Г®Г© Г°ГіГЎГЄГЁ, Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЇГ°Г®Г¬ГҐГ¦ГіГІГ®Г·Г­Г»ГҐ ГЇГ®Г§ГЁГ¶ГЁГЁ
 					path[*ind][k].X = path[ind_for_copy][k].X;
 					path[*ind][k].Y = path[ind_for_copy][k].Y;
 					k++;
 				}
-				path[*ind][k].X = crd.X;//записываем текущую позицию, как часть пути
+				path[*ind][k].X = crd.X;//Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГІГҐГЄГіГ№ГіГѕ ГЇГ®Г§ГЁГ¶ГЁГѕ, ГЄГ ГЄ Г·Г Г±ГІГј ГЇГіГІГЁ
 				path[*ind][k].Y = crd.Y;
 			}
-			eated_checker[*ind][count_eated_prev] = find_eated(turn, crd, field_tmp[crd.X][crd.Y].cut[n]);//шашка, съеденная этим ходом
+			eated_checker[*ind][count_eated_prev] = find_eated(turn, crd, field_tmp[crd.X][crd.Y].cut[n]);//ГёГ ГёГЄГ , Г±ГєГҐГ¤ГҐГ­Г­Г Гї ГЅГІГЁГ¬ ГµГ®Г¤Г®Г¬
 			move_forward(&crd, &field_tmp[crd.X][crd.Y].cut[n], turn, eated_checker, *ind, &was_queen);
 			int ind_for_del = *ind;
 			(*ind)++;
 			i++;
-			new_coord.X = field_tmp[crd.X][crd.Y].cut[n].X;//новой позицией будет результат рубки
+			new_coord.X = field_tmp[crd.X][crd.Y].cut[n].X;//Г­Г®ГўГ®Г© ГЇГ®Г§ГЁГ¶ГЁГҐГ© ГЎГіГ¤ГҐГІ Г°ГҐГ§ГіГ«ГјГІГ ГІ Г°ГіГЎГЄГЁ
 			new_coord.Y = field_tmp[crd.X][crd.Y].cut[n].Y;
 			analyze(TMP);
-			result = have_to_cut_cur(new_coord, 2);// проверяем, может ли срубить ещё
-			if (result == 1)// если может срубить еще одну, входим в рекурсию
+			result = have_to_cut_cur(new_coord, 2);// ГЇГ°Г®ГўГҐГ°ГїГҐГ¬, Г¬Г®Г¦ГҐГІ Г«ГЁ Г±Г°ГіГЎГЁГІГј ГҐГ№Вё
+			if (result == 1)// ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі, ГўГµГ®Г¤ГЁГ¬ Гў Г°ГҐГЄГіГ°Г±ГЁГѕ
 				deep_search(turn, new_coord, moves, eated_checker, ind, start_coord, i, path);
 			i--;
 			move_back(&crd, &new_coord, turn, &eated_checker[ind_for_del], was_queen, ONE);
@@ -2210,56 +2209,56 @@ void deep_search_for_queen(int turn, COORD crd, COORD moves[MAX_COUNT_TURNS][2],
 	COORD new_coord = { 0,0 };
 	int result = 0, is_cut = 0, was_queen[10], k = 0, first = 1;
 	memset(was_queen, 0, sizeof(was_queen));
-	int ind_for_copy = (*ind) - 1;// индекс для копирования предыдущих частей хода
-	int count_eated_prev = i;//количество съеденых шашек до этого хода
+	int ind_for_copy = (*ind) - 1;// ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї ГЇГ°ГҐГ¤Г»Г¤ГіГ№ГЁГµ Г·Г Г±ГІГҐГ© ГµГ®Г¤Г 
+	int count_eated_prev = i;//ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГєГҐГ¤ГҐГ­Г»Гµ ГёГ ГёГҐГЄ Г¤Г® ГЅГІГ®ГЈГ® ГµГ®Г¤Г 
 	for (int n = 0; n < 4; n++)
 	{
-		for (int t = 0; t < 6; t++)//цикл по всем рубкам
+		for (int t = 0; t < 6; t++)//Г¶ГЁГЄГ« ГЇГ® ГўГ±ГҐГ¬ Г°ГіГЎГЄГ Г¬
 		{
 			analyze(TMP);
 			if (!(field_tmp[crd.X][crd.Y].cut_q[n][t].X == 0 && field_tmp[crd.X][crd.Y].cut_q[n][t].Y == 0))
-			{//если есть доступная рубка
-				moves[*ind][0].X = start_coord.X;//записываем как ход
+			{//ГҐГ±Г«ГЁ ГҐГ±ГІГј Г¤Г®Г±ГІГіГЇГ­Г Гї Г°ГіГЎГЄГ 
+				moves[*ind][0].X = start_coord.X;//Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЄГ ГЄ ГµГ®Г¤
 				moves[*ind][0].Y = start_coord.Y;
 				moves[*ind][1].X = field_tmp[crd.X][crd.Y].cut_q[n][t].X;
 				moves[*ind][1].Y = field_tmp[crd.X][crd.Y].cut_q[n][t].Y;
 				int z = 0;
 				while (!(eated_checker[ind_for_copy][z].X == 0 && eated_checker[ind_for_copy][z].Y == 0) && ind_for_copy > -1)
-				{//если до этого в серии ходов были съедены шашки, копируем их для текущего хода
+				{//ГҐГ±Г«ГЁ Г¤Г® ГЅГІГ®ГЈГ® Гў Г±ГҐГ°ГЁГЁ ГµГ®Г¤Г®Гў ГЎГ»Г«ГЁ Г±ГєГҐГ¤ГҐГ­Г» ГёГ ГёГЄГЁ, ГЄГ®ГЇГЁГ°ГіГҐГ¬ ГЁГµ Г¤Г«Гї ГІГҐГЄГіГ№ГҐГЈГ® ГµГ®Г¤Г 
 					eated_checker[*ind][z].X = eated_checker[ind_for_copy][z].X;
 					eated_checker[*ind][z].Y = eated_checker[ind_for_copy][z].Y;
 					z++;
 				}
 				if (start_coord.X == crd.X && start_coord.Y == crd.Y && first == 1)
-				{//для первого входа, обнуляем массив
+				{//Г¤Г«Гї ГЇГҐГ°ГўГ®ГЈГ® ГўГµГ®Г¤Г , Г®ГЎГ­ГіГ«ГїГҐГ¬ Г¬Г Г±Г±ГЁГў
 					memset(eated_checker, 0, sizeof(eated_checker));
 					i = 0;
 					first = 0;
 				}
 				else if (start_coord.X == crd.X && start_coord.Y == crd.Y)
-					i = 0;// если первый ход имел несколько вариаций, съеденых шашек для второй и тд вариаций будет 0
+					i = 0;// ГҐГ±Г«ГЁ ГЇГҐГ°ГўГ»Г© ГµГ®Г¤ ГЁГ¬ГҐГ« Г­ГҐГ±ГЄГ®Г«ГјГЄГ® ГўГ Г°ГЁГ Г¶ГЁГ©, Г±ГєГҐГ¤ГҐГ­Г»Гµ ГёГ ГёГҐГЄ Г¤Г«Гї ГўГІГ®Г°Г®Г© ГЁ ГІГ¤ ГўГ Г°ГЁГ Г¶ГЁГ© ГЎГіГ¤ГҐГІ 0
 				else
 				{
 					int k = 0;
 					while (!(path[ind_for_copy][k].X == 0 && path[ind_for_copy][k].Y == 0))
-					{//если путь состоит не из одной рубки, записываем промежуточные позиции
+					{//ГҐГ±Г«ГЁ ГЇГіГІГј Г±Г®Г±ГІГ®ГЁГІ Г­ГҐ ГЁГ§ Г®Г¤Г­Г®Г© Г°ГіГЎГЄГЁ, Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЇГ°Г®Г¬ГҐГ¦ГіГІГ®Г·Г­Г»ГҐ ГЇГ®Г§ГЁГ¶ГЁГЁ
 						path[*ind][k].X = path[ind_for_copy][k].X;
 						path[*ind][k].Y = path[ind_for_copy][k].Y;
 						k++;
 					}
-					path[*ind][k].X = crd.X;//записываем текущую позицию, как часть пути
+					path[*ind][k].X = crd.X;//Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГІГҐГЄГіГ№ГіГѕ ГЇГ®Г§ГЁГ¶ГЁГѕ, ГЄГ ГЄ Г·Г Г±ГІГј ГЇГіГІГЁ
 					path[*ind][k].Y = crd.Y;
 				}
-				eated_checker[*ind][i] = find_eated(turn, crd, field_tmp[crd.X][crd.Y].cut_q[n][t]);//шашка, съеденная этим ходом
+				eated_checker[*ind][i] = find_eated(turn, crd, field_tmp[crd.X][crd.Y].cut_q[n][t]);//ГёГ ГёГЄГ , Г±ГєГҐГ¤ГҐГ­Г­Г Гї ГЅГІГЁГ¬ ГµГ®Г¤Г®Г¬
 				move_forward(&crd, &field_tmp[crd.X][crd.Y].cut_q[n][t], turn, eated_checker, *ind, &was_queen);
 				int ind_for_del = *ind;
 				(*ind)++;
 				i++;
-				new_coord.X = field_tmp[crd.X][crd.Y].cut_q[n][t].X;//новой позицией будет результат рубки
+				new_coord.X = field_tmp[crd.X][crd.Y].cut_q[n][t].X;//Г­Г®ГўГ®Г© ГЇГ®Г§ГЁГ¶ГЁГҐГ© ГЎГіГ¤ГҐГІ Г°ГҐГ§ГіГ«ГјГІГ ГІ Г°ГіГЎГЄГЁ
 				new_coord.Y = field_tmp[crd.X][crd.Y].cut_q[n][t].Y;
 				analyze(TMP);
-				result = have_to_cut_cur(new_coord, 2);// проверяем, может ли срубить ещё
-				if (result == 1)// если может срубить еще одну, входим в рекурсию
+				result = have_to_cut_cur(new_coord, 2);// ГЇГ°Г®ГўГҐГ°ГїГҐГ¬, Г¬Г®Г¦ГҐГІ Г«ГЁ Г±Г°ГіГЎГЁГІГј ГҐГ№Вё
+				if (result == 1)// ГҐГ±Г«ГЁ Г¬Г®Г¦ГҐГІ Г±Г°ГіГЎГЁГІГј ГҐГ№ГҐ Г®Г¤Г­Гі, ГўГµГ®Г¤ГЁГ¬ Гў Г°ГҐГЄГіГ°Г±ГЁГѕ
 					deep_search_for_queen(turn, new_coord, moves, eated_checker, ind, start_coord, i, path);
 				i--;
 				move_back(&crd, &new_coord, turn, &eated_checker[ind_for_del], was_queen, ONE);
@@ -2269,7 +2268,7 @@ void deep_search_for_queen(int turn, COORD crd, COORD moves[MAX_COUNT_TURNS][2],
 }
 
 COORD find_eated(int turn, COORD start, COORD finish)
-{// находим шашку, которую съели путем прибавления/отнятия соотв. координат
+{// Г­Г ГµГ®Г¤ГЁГ¬ ГёГ ГёГЄГі, ГЄГ®ГІГ®Г°ГіГѕ Г±ГєГҐГ«ГЁ ГЇГіГІГҐГ¬ ГЇГ°ГЁГЎГ ГўГ«ГҐГ­ГЁГї/Г®ГІГ­ГїГІГЁГї Г±Г®Г®ГІГў. ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ
 	int incx = start.X - finish.X > 0 ? -1 : 1;
 	int incy = start.Y - finish.Y > 0 ? -1 : 1;
 	while (field_tmp[start.X][start.Y].isBusy != 3 - turn)
